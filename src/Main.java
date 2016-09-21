@@ -20,7 +20,7 @@ public class Main {
 
         return max(MaxSubStringLength(charArray, l, m),
                 MaxSubStringLength(charArray, m+1, r),
-                MaxCrossingString(charArray, l, m, r));
+                MaxCrossingStringLength(charArray, l, m, r));
     }
 
     // A utility funtion to find maximum of two integers
@@ -29,7 +29,7 @@ public class Main {
     // A utility funtion to find maximum of three integers
      static int max(int a, int b, int c) { return max(max(a, b), c); }
 
-    private static int MaxCrossingString(char[] charArray, int l, int m, int r) {
+    private static int MaxCrossingStringLength(char[] charArray, int l, int m, int r) {
 
         int length = 1;
         int maxSubLength = Integer.MIN_VALUE;
