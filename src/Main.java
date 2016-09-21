@@ -5,12 +5,12 @@ public class Main {
        String string = "bcdealmnop";
         char[] charArray=string.toCharArray();
 
-        int maxString = MaxString(charArray,0,charArray.length-1);
+        int maxString = MaxSubStringLength(charArray,0,charArray.length-1);
 
         System.out.println(maxString);
     }
 
-    private static int MaxString(char[] charArray, int l, int r) {
+    private static int MaxSubStringLength(char[] charArray, int l, int r) {
 
         if(l==r){
             return 1;
@@ -18,8 +18,8 @@ public class Main {
 
         int m = (l+r)/2;
 
-        return max(MaxString(charArray, l, m),
-                MaxString(charArray, m+1, r),
+        return max(MaxSubStringLength(charArray, l, m),
+                MaxSubStringLength(charArray, m+1, r),
                 MaxCrossingString(charArray, l, m, r));
     }
 
