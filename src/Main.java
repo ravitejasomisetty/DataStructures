@@ -1,50 +1,58 @@
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Main {
     public static void main(String args[]) throws IOException {
-       String string = "bcdealmnop";
-        char[] charArray=string.toCharArray();
-
-        int maxString = MaxSubStringLength(charArray,0,charArray.length-1);
-
-        System.out.println(maxString);
-    }
-
-    private static int MaxSubStringLength(char[] charArray, int l, int r) {
-
-        if(l==r){
-            return 1;
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder inputString = new StringBuilder();
+        String s;
+        while ((s = in.readLine()) != null) {
+            inputString.append(s);
         }
 
-        int m = (l+r)/2;
+        char[] stringArray= inputString.toString().toCharArray();
+        char[] outputArray = new char[stringArray.length];
+        int k=0;
+        for(int i=0;i<stringArray.length;i++){
+            if(!((int)stringArray[i]>=97 && (int)stringArray[i]<=122 && stringArray[i]!=' '))
+                continue;
+            outputArray[k++]=stringArray[i];
+        }
 
-        return max(MaxSubStringLength(charArray, l, m),
-                MaxSubStringLength(charArray, m+1, r),
-                MaxCrossingStringLength(charArray, l, m, r));
+        System.out.println(new String(outputArray).trim());
     }
 
-    // A utility funtion to find maximum of two integers
-    static int max(int a, int b) { return (a > b)? a : b; }
-
-    // A utility funtion to find maximum of three integers
-     static int max(int a, int b, int c) { return max(max(a, b), c); }
-
-    private static int MaxCrossingStringLength(char[] charArray, int l, int m, int r) {
-
-        int length = 1;
-        int maxSubLength = Integer.MIN_VALUE;
-
-        for (int i = l;i<r;i++)
-        {
-            if(charArray[i]<charArray[i+1])
-            {
-                length++;
-                if (length > maxSubLength)
-                    maxSubLength = length;
-            }
+    private static String WordReverse(String word){
+        char[] wordArray=word.toCharArray();
+        char[] reverseWordArray=new char[wordArray.length];
+        int k=reverseWordArray.length-1;
+        for(int i=wordArray.length-1;i>=0;i--){
+            if(i==0)
+                reverseWordArray[k--]=(char)((int)wordArray[i]-65);
             else
-                return 0;
+                reverseWordArray[k--]=wordArray[i];
         }
-        return maxSubLength;
+
+        return new String(reverseWordArray);
+    }
+
+
+    //Utility method to compare containment of each passage
+    private static boolean VerifyContainment(String[] arrayOfPassages, String passage, int index){
+       String[] passageWords = passage.split(" ");
+        for(int i=0;i<arrayOfPassages.length;i++){
+            if(i==index)
+                continue;
+            String[] compareWithPassage = arrayOfPassages[i].split(" ");
+
+            int j=0, k=0;
+            while(j<passageWords.length && k<compareWithPassage.length)
+            {
+                if(!passageWords[i].equalsIgnoreCase(compareWithPassage[k]))
+                    return false;
+            }
+        }
+        return true;
     }
 }
