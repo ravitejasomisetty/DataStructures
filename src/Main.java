@@ -146,4 +146,111 @@ public class Main {
         return subSequences;
     }
 
+
+
+    /*TWITTER CODING CHALLENGE
+    * Input Format: <expression tree> / <sequence of operations>
+    * Expected Input:
+    * (AB)C/
+    * (AB)C/S
+    * (AB)C/RS
+    * A(BC)/RS
+    * A(BC)/RSR
+    * Expected Output:
+    * (AB)C
+    * ABC
+    * CBA
+    * CBA
+    * ABC*/
+    static String expressionTreeOperations(String expressionTree, String operations){
+        operations=preProcessOperations(operations);
+        expressionTree=preProcessExpressionTree(expressionTree);
+
+        char[] operationsArray = operations.toCharArray();
+        for(int i=0;i<operationsArray.length;i++){
+            switch (operationsArray[i]){
+                case 'R':
+                    expressionTree=ReverseExpression(expressionTree);
+                    break;
+                case 'S':
+                    expressionTree=SimplifyExpression(expressionTree);
+                    break;
+            }
+        }
+        return expressionTree;
+    }
+
+    static String preProcessExpressionTree(String expressionTree){
+        char[] expressionTreeArray = expressionTree.toCharArray();
+        char[] expressionTreeArrayCopy = new char[expressionTreeArray.length];
+        int j=0;
+        for(int i=0;i<expressionTreeArray.length;i++){
+            if(expressionTreeArray[i]==' ')
+                continue;
+            expressionTreeArrayCopy[j++]=expressionTreeArray[i];
+        }
+        return new String(expressionTreeArrayCopy).trim();
+    }
+
+    static String preProcessOperations(String operations){
+        char[] operationsArray = operations.toCharArray();
+        StringBuilder sb = new StringBuilder();
+        int i=0;
+        while(i<operationsArray.length){
+            if(i<operationsArray.length-1 && operationsArray[i]=='R' && operationsArray[i+1] == 'R'){
+                i=i+2;
+                continue;
+            }
+            if(i<operationsArray.length-1 && operationsArray[i] == 'S' && operationsArray[i+1]=='S'){
+                i=i+1;
+                continue;
+            }
+            sb.append(operationsArray[i++]);
+        }
+        return sb.toString();
+    }
+
+    static String ReverseExpression(String expression){
+        if(expression.length()<=1){
+            return Character.toString(replaceParenthesis(expression.charAt(0)));
+        }
+        char appendingChar= replaceParenthesis(expression.charAt(0));
+        return String.format("%s%s", ReverseExpression(expression.substring(1)),appendingChar);
+    }
+
+    static char replaceParenthesis(char appendingChar){
+        if( appendingChar =='(')
+            appendingChar=')';
+        else if (appendingChar== ')')
+            appendingChar='(';
+        return appendingChar;
+    }
+
+    static String SimplifyExpression(String expression){
+        char[] expressionArray = expression.toCharArray();
+        char[] expressionArrayCopy = new char[expressionArray.length];
+        boolean openParenthesisFound=false;
+        int j=0;
+        for(int i=0;i<expressionArray.length;i++){
+            if(i==0 && expressionArray[i]=='(' && !openParenthesisFound)
+            {
+                openParenthesisFound=true;
+                continue;
+            }
+
+            if(expressionArray[i]==')' && openParenthesisFound)
+            {
+                openParenthesisFound=false;
+                continue;
+            }
+
+            expressionArrayCopy[j++]=expressionArray[i];
+
+        }
+        return new String(expressionArrayCopy).trim();
+    }
+
+/*END TWITTER CODING CHALLENGE*/
+
+
 }
