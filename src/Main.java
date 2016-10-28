@@ -146,7 +146,40 @@ public class Main {
         return subSequences;
     }
 
+    /**
+     * LOWEST COMMON ANCESTOR
+     * To be fixed*/
+    static BinaryTreeNode LCA(BinaryTreeNode root, BinaryTreeNode n1, BinaryTreeNode n2){
+        Stack<BinaryTreeNode> path1 = new Stack();
+        Stack<BinaryTreeNode> path2 = new Stack();
 
+        if(!findPath(root,n1,path1) || !(findPath(root, n2, path2)))
+        {
+            return null;}
+        int i=0;
+        for(;i<path1.size() && i<path2.size();i++)
+            if(path1.elementAt(i).value!=path2.elementAt(i).value)
+                break;
+        return path1.elementAt(i-1);
+    }
+
+    static boolean findPath(BinaryTreeNode root, BinaryTreeNode node, Stack<BinaryTreeNode> path){
+        path.push(root);
+
+        if(root==null)
+            return false;
+
+        if(root.value == node.value)
+            return true;
+
+        if((findPath(node.left, node,path)) ||
+                (findPath(node.right, node, path)))
+            return true;
+
+        path.pop();
+
+        return false;
+    }
 
     /*TWITTER CODING CHALLENGE
     * Input Format: <expression tree> / <sequence of operations>
