@@ -252,5 +252,170 @@ public class Main {
 
 /*END TWITTER CODING CHALLENGE*/
 
+    /**
+     * Depth of a binary tree*/
+    static int depth(BinaryTreeNode root){
+        if(root == null) return 0;
+        return Math.max(depth(root.left), depth(root.right)) + 1;
+    }
 
+    /**
+     * Print In Order Traversal of Binary Tree*/
+    static void printInOrder (BinaryTreeNode root){
+        if(root == null)
+            return;
+
+        printInOrder(root.left);
+        System.out.print(root.value+" ");
+        printInOrder(root.right);
+    }
+
+    /**
+     * Validate BST*/
+    static boolean validBST(int prev, BinaryTreeNode root){
+        if(root == null)
+            return true;
+
+        return validBST(prev,root.left) && (prev<=root.value) && validBST(root.value,root.right);
+    }
+
+    /**
+     * Copy a Binary Tree*/
+    static BinaryTreeNode copyBinaryTree(BinaryTreeNode root){
+        if(root == null)
+            return null;
+        BinaryTreeNode node = new BinaryTreeNode(root.value);
+        node.left=copyBinaryTree(root.left);
+        node.right = copyBinaryTree(root.right);
+        return node;
+    }
+
+    /**
+     * BFS or Level Order on a Binary Tree*/
+    static void bfsLevelOrder(BinaryTreeNode root){
+        Queue<BinaryTreeNode> nodes = new LinkedList();
+        nodes.add(root);
+        while(!nodes.isEmpty()){
+            BinaryTreeNode node = nodes.poll();
+            if(node == null)
+                continue;
+            System.out.print(node.value+" ");
+            nodes.add(node.left);
+            nodes.add(node.right);
+        }
+    }
+
+    /**
+     * DFS on a Binary Tree*/
+    static void dfs(BinaryTreeNode root){
+        Stack<BinaryTreeNode> nodes = new Stack();
+        nodes.add(root);
+        while(!nodes.isEmpty()){
+            BinaryTreeNode node = nodes.pop();
+            if(node == null)
+                continue;
+            System.out.print(node.value+" ");
+            nodes.add(node.left);
+            nodes.add(node.right);
+        }
+    }
+
+    /**
+     * DFS using recursion*/
+    static void dfsRecursive(BinaryTreeNode root){
+        if(root == null)
+            return;
+        dfsRecursive(root.left);
+        dfsRecursive(root.right);
+        System.out.print(root.value+" ");
+    }
+
+    /**
+     * Mirror of a Binary Tree*/
+    static void mirrorMe(BinaryTreeNode root){
+        if(root == null)
+            return;
+
+        BinaryTreeNode temp = root.left;
+        root.left = root.right;
+        root.right = temp;
+
+        mirrorMe(root.left);
+        mirrorMe(root.right);
+    }
+
+    /**
+     * Mirror of a BT iteratively*/
+    static void mirrorMeIterative(BinaryTreeNode root){
+        Queue<BinaryTreeNode> nodes = new LinkedList<>();
+        nodes.add(root);
+        while(!nodes.isEmpty()){
+            BinaryTreeNode node = nodes.poll();
+            if(node == null){
+                continue;
+            }
+            //Swapping
+            BinaryTreeNode temp = node.left;
+            node.left = node.right;
+            node.right = temp;
+
+            nodes.add(node.left);
+            nodes.add(node.right);
+        }
+    }
+
+    /**
+     * Reverse a single linked list*/
+    static SLLNode reverseLinkedList(SLLNode head){
+        SLLNode prev=null, current, next;
+        current=head;
+        while(current!=null){
+            next=current.next;
+            current.next = prev;
+            prev=current;
+            current=next;
+        }
+        return prev;
+    }
+
+    /**
+     * Reverse linked list using recursion*/
+    static SLLNode reverseLLRecursion(SLLNode head){
+        if(head == null || head.next == null)
+            return head;
+
+        SLLNode f = head;
+        SLLNode r = f.next;
+        SLLNode rest = reverseLLRecursion(r);
+        f.next.next=f;
+        f.next=null;
+        return rest;
+    }
+
+    /**
+     * Utility method to print the single linked list*/
+    static void printLinkedList(SLLNode head){
+        while(head!=null){
+            System.out.print(head.data+"->");
+            head=head.next;
+        }
+    }
+}
+
+
+class BinaryTreeNode{
+    BinaryTreeNode left, right;
+    int value;
+    public BinaryTreeNode(int value){
+        this.value=value;
+    }
+}
+
+class SLLNode{
+    int data;
+    SLLNode next;
+    public SLLNode(int data){
+        this.data=data;
+        this.next=null;
+    }
 }
