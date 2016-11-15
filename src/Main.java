@@ -425,6 +425,88 @@ public class Main {
         return rest;
     }
 
+
+    rest.next=first;
+}
+
+    /**
+     * Find and remove loop in linkedlist*/
+    static boolean detectLoop(SLLNode root){
+        SLLNode slowIterator = root;
+        SLLNode fastIterator=root;
+        while(slowIterator!=null && fastIterator!=null && fastIterator.next!=null){
+            slowIterator=slowIterator.next;
+            fastIterator=fastIterator.next.next;
+            if(slowIterator==fastIterator)
+            {
+                removeLoop(slowIterator,fastIterator,root);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Remove loop in linked list
+     * 1. Count K nodes in loop: increment slow iterator until it again meets the fast iterator
+     * 2. Initialize a new iterator from root and another from Kth node from root
+     * 3. Increment them both at same pace and they meet at loop start node
+     * 4. Get to the loop end node and point its next to NULL
+     */
+    static void removeLoop(SLLNode slowIterator, SLLNode fastIterator, SLLNode root){
+        //Count K nodes in loop
+        int k=0;
+        do{
+            slowIterator=slowIterator.next;
+            k++;
+        }while (slowIterator!=fastIterator);
+
+        //Find the loop start node
+        SLLNode iteratorFromRoot = root;
+        SLLNode iteratorKthFromRoot=root;
+        for(int i=0;i<k;i++)
+            iteratorKthFromRoot=iteratorKthFromRoot.next;
+
+        while(iteratorFromRoot!=iteratorKthFromRoot)
+        {
+            iteratorFromRoot=iteratorFromRoot.next;
+            iteratorKthFromRoot=iteratorKthFromRoot.next;
+        }
+
+        SLLNode loopStartNode = iteratorFromRoot;
+        SLLNode loopEndNode = iteratorKthFromRoot;
+        while(loopEndNode.next!=loopStartNode){
+            loopEndNode=loopEndNode.next;
+        }
+        loopEndNode.next=null;
+    }
+
+    static int preIndex=0;
+
+    /**
+     * Construct BT from InOrder and PreOrder*/
+    static BinaryTreeNode constructBT(char[] inArray, char[] preArray, int inStart, int inEnd){
+        if(inStart>inEnd)
+            return null;
+        BinaryTreeNode root = new BinaryTreeNode(preArray[preIndex++]);
+        if(inStart==inEnd)
+            return root;
+        int inIndex = search(inArray,(char)root.value);
+        root.left = constructBT(inArray,preArray,inStart,inIndex-1);
+        root.right=constructBT(inArray,preArray,inIndex+1,inEnd);
+        return root;
+    }
+
+    /**
+     * Array search*/
+    static int search(char[] array, char searchChar){
+        for(int i=0;i<array.length;i++){
+            if(array[i]==searchChar)
+                return i;
+        }
+        return -1;
+    }
+
     /**
      * Utility method to print the single linked list*/
     static void printLinkedList(SLLNode head){
