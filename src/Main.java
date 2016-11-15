@@ -339,6 +339,33 @@ public class Main {
     }
 
     /**
+     * Prints nodes at the given level of given binary tree using Queue
+     * @param root root node of the binary tree
+     * @param level level of the nodes
+     * Similarly we can print nodes between given 2 levels
+     */
+    static void nodesAtLevel(BinaryTreeNode root, int level){
+        java.util.Queue<BinaryTreeNode> nodes = new LinkedList();
+        nodes.add(root);
+        int currentLevel=0;
+        int levelNodes;
+        while(!nodes.isEmpty()){
+            levelNodes = nodes.size();
+            while(levelNodes>0){
+                BinaryTreeNode node = nodes.poll();
+                if(currentLevel==level)
+                    System.out.print(node.value+" ");
+                if(node.left!=null) nodes.add(node.left);
+                if(node.right!=null) nodes.add(node.right);
+                levelNodes--;
+            }
+            if(currentLevel==level)
+                System.out.println();
+            currentLevel++;
+        }
+    }
+
+    /**
      * DFS on a Binary Tree*/
     static void dfs(BinaryTreeNode root){
         Stack<BinaryTreeNode> nodes = new Stack();
