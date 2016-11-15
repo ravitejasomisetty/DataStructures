@@ -515,6 +515,72 @@ public class Main {
             head=head.next;
         }
     }
+
+    /**
+     * SORTINGS*/
+
+    /**
+     * MIN-HEAP:
+     * 1. Heapify: Build min heap bottom up for upper half (excluding leaves)
+     * 2. MinHeap top down*/
+    static void buildMinHeap(int[] a){
+        for(int i=(a.length-1)/2;i>=0i--)
+            minHeap(a,i,a.length-1);
+    }
+    static void minHeap(int[] a, int i, int n){
+        int left = 2i+1;
+        int right = 2i+2;
+        if(left<=n && a[i]>a[left])
+        {
+            swap(a,i,left);
+            minHeap(a,left,n);
+        }
+        if(right<=n && a[i]>a[right])
+        {
+            swap(a,i,right);
+            minHeap(a,right,n);
+        }
+    }
+
+    static void swap(int[] a, int i, int j){
+        int temp = a[i];
+        a[i]=a[j];
+        a[j]=temp;
+    }
+
+    /**
+     * MERGE SORT*/
+    static void mergeSort(int[] b) {
+        if (b.length < 2) {
+            return;
+        }
+        int[] left = new int[b.length / 2];
+        int[] right = new int[b.length - b.length / 2];
+        for (int i = 0; i < b.length/2; i++) {
+            left[i] = b[i];
+        }
+        for (int i =  b.length / 2; i < b.length; i++) {
+            right[i-b.length/2] = b[i];
+        }
+        mergeSort(left);
+        mergeSort(right);
+        merge(left, right, b);
+    }
+
+    static void merge(int[] left, int[] right, int[] b){
+        int i=0,j=0,k=0;
+        while(i<left.length && j<right.length){
+            if(left[i]<right[j])
+                b[k++]=left[i++];
+            else
+                b[k++]=right[j++];
+        }
+
+        while(i<left.length)
+            b[k++]=left[i++];
+        while(j<right.length)
+            b[k++]=right[j++];
+    }
 }
 
 
