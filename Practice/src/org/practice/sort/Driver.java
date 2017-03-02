@@ -14,6 +14,7 @@ public class Driver {
 		Sortings<Integer> sIntSort = new Sortings<Integer>();
 
 		sIntSort.BubbleIntegerSort(new Integer[] { 27, 1, 9, -9, 3 });
+		sIntSort.InsertionIntegerSort(new Integer[] { 27, 1, 9, -9, 3 });
 
 		Movies.Movie movieA = new Movies.Movie(1, 1.2f);
 		Movies.Movie movieB = new Movies.Movie(2, 2.4f);
