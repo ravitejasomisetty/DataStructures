@@ -15,6 +15,7 @@ public class Driver {
 
 		sIntSort.BubbleIntegerSort(new Integer[] { 27, 1, 9, -9, 3 });
 		sIntSort.InsertionIntegerSort(new Integer[] { 27, 1, 9, -9, 3 });
+		sIntSort.HeapIntegerSort(new Integer[] { 3, 10, 11,21,-7,9 });
 
 		Movies.Movie movieA = new Movies.Movie(1, 1.2f);
 		Movies.Movie movieB = new Movies.Movie(2, 2.4f);
@@ -33,7 +34,7 @@ public class Driver {
 		movieD.addSimilarMovie(movieB);
 		movieD.addSimilarMovie(movieC);
 
-		for (Movies.Movie m : Movies.getMovieRecommendations(movieB, 2)) {
+		for (Movies.Movie m : Movies.getMovieRecommendations(movieA, 2)) {
 			System.out.println("Movie id= " + m.getId() + " Rating= " + m.getRating());
 		}
 

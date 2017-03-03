@@ -16,6 +16,8 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.practice.sort.Sortings;
+
 public class Movies {
 	/*
 	 * *
@@ -26,15 +28,19 @@ public class Movies {
 	 * 
 	 * @return List of top rated similar movies
 	 */
-	public static List<Movie> getMovieRecommendations(Movie movie, int numTopRatedSimilarMovies) {
+	public static Movie[] getMovieRecommendations(Movie movie, int numTopRatedSimilarMovies) {
 		Set<Movie> moviesSorted = BFS(movie);
-		List<Movie> topNMovies = new LinkedList<Movie>();
+		Movie[] topNMovies = new Movie[numTopRatedSimilarMovies];
 		Iterator<Movie> it = moviesSorted.iterator();
-		while(it.hasNext() && topNMovies.size()<numTopRatedSimilarMovies){
-			topNMovies.add(it.next());
+		int i=0;
+		while(it.hasNext() && i<numTopRatedSimilarMovies){
+			topNMovies[i++] = it.next();
 		}
 		
-		System.out.println("Top N Movies"+Arrays.toString(topNMovies.toArray())+"\r\n Given Movie: "+movie.getId());
+		System.out.println("Top N Movies"+Arrays.toString(topNMovies)+"\r\n Given Movie: "+movie.getId());
+		
+		topNMovies = BFSWithHeapSort(movie);
+		System.out.println("HEAP SORTED Top N Movies"+Arrays.toString(topNMovies)+"\r\n Given Movie: "+movie.getId());
 		return topNMovies;
 	}
 
@@ -67,6 +73,34 @@ public class Movies {
 		System.out.println("After BFS : "+ Arrays.toString(allNodes.toArray()));
 		return allNodes;
 	}
+	
+	
+	// Traversing all movies
+		private static Movie[] BFSWithHeapSort(Movie startNode) {
+			//NOTE: HashSet doesn't preserve your insertion order
+			Set<Movie> allNodes = new HashSet<Movie>();
+			
+			
+			Queue<Movie> queue = new LinkedList<Movie>();
+			queue.add(startNode);
+
+			while (!queue.isEmpty()) {
+				Movie nextNode = queue.poll();
+				if (!allNodes.contains(nextNode)) {
+					allNodes.add(nextNode);
+					queue.addAll(nextNode.getSimilarMovies());
+				}
+			}
+			Movie[] allNodesArray = new Movie[allNodes.size()];
+			allNodes.toArray(allNodesArray);
+			
+			Sortings sort = new Sortings();
+			sort.HeapIntegerSort(allNodesArray);
+			
+			System.out.println("After BFS : "+ Arrays.toString(allNodesArray));
+			
+			return allNodesArray;
+		}
 	
 	
 	
