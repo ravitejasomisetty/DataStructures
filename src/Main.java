@@ -423,6 +423,77 @@ public class Main {
             nodes.add(node.right);
         }
     }
+    
+    /** Delete a node from BST
+	 * 1. Leaf Node?
+	 * 2. Has one child?
+	 * 3. Has two children?
+	 */
+	public BinaryTreeNode Delete(int valueToDelete){
+		return DeleteHelper(root, valueToDelete);
+	}
+	
+	/**
+	 * @param root2
+	 * @param valueToDelete
+	 */
+	private BinaryTreeNode DeleteHelper(BinaryTreeNode root, int valueToDelete) {
+		if(valueToDelete > root.value)
+			root.right = DeleteHelper(root.right, valueToDelete);
+		else if(valueToDelete < root.value)
+			root.left = DeleteHelper(root.left, valueToDelete);		
+		
+		else{
+			if(root.left == null)
+				return root.right;
+			else if(root.right == null)
+				return root.left;
+			
+			//Two children
+			root.value = minValue(root.right);
+			
+			root.right = DeleteHelper(root.right, root.value);
+		}
+		
+		return root;
+	}
+
+	/**
+	 * @param right
+	 * @return
+	 */
+	private int minValue(BinaryTreeNode root) {
+		int minv = root.value;
+		while(root.left != null){
+			minv = minValue(root.left);
+		}
+		return minv;
+	}
+
+	/**
+	 * Search in BST
+	 * */
+	public BinaryTreeNode Search(int searchValue){
+		return SearchHelper(root, searchValue);
+	}
+
+	/**
+	 * @param root2
+	 * @param searchValue
+	 * @return
+	 */
+	private BinaryTreeNode SearchHelper(BinaryTreeNode rootNode, int searchValue) {
+		if(rootNode.value == searchValue)
+			return rootNode;
+		
+		if(searchValue > rootNode.value)
+			return SearchHelper(rootNode.right, searchValue);
+		
+		if(searchValue < rootNode.value)
+			return SearchHelper(rootNode.left, searchValue);
+		
+		return null;
+	}
 
     /**
      * Reverse a single linked list*/
